@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ZingRover — Food Deals & Restaurants</title>
+  <meta name="description" content="ZingRover — Discover burgers, featured restaurants and city-wise food deals." />
+  <style>
+    :root{
+      --bg-1: #EDD3F4;
+      --bg-2: #BA90C6;
+      --accent: #702963;
+      --muted: #6e6b73;
+      --card: #fff;
+      --gold: #ffd700;
+      --max-width: 1180px;
+      --radius: 12px;
+    }
+
+    /* Reset */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+      background: linear-gradient(180deg,#fbf6fb 0%, #f6f0f8 100%);
+      color:#222;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.4;
+    }
+
+    .site-wrap{
+      max-width:var(--max-width);
+      margin:0 auto;
+      padding:18px;
+    }
+
+    /* Header / Top bar (original firstDiv) */
+    header.site-header{
+      background: linear-gradient(90deg,var(--bg-2), #c08ac6);
+      padding:18px 20px;
+      border-radius: 14px;
+      color: #fff;
+      display:flex;
+      align-items:center;
+      gap:18px;
+      justify-content:space-between;
+      box-shadow: 0 8px 22px rgba(112,41,99,0.12);
+    }
+
+    .brand {
+      display:flex;
+      gap:14px;
+      align-items:center;
+    }
+
+    .brand .logo {
+      width:48px;
+      height:48px;
+      border-radius:10px;
+      background: linear-gradient(135deg,#fff 0%, rgba(255,255,255,0.07) 100%);
+      display:grid;
+      place-items:center;
+      color:var(--accent);
+      font-weight:700;
+      font-size:18px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.07) inset;
+    }
+
+    .brand h1{
+      font-size:20px;
+      letter-spacing:0.5px;
+      margin-bottom:2px;
+      color:#fff;
+    }
+    .brand p{font-size:12px;color:rgba(255,255,255,0.9);margin-top:0}
+
+    nav.top-nav{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      margin-left:auto;
+    }
+
+    .nav-btn{
+      background:transparent;
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #fff;
+      padding:8px 12px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:600;
+      transition: all .18s ease;
+    }
+    .nav-btn:hover{ transform: translateY(-2px); box-shadow:0 6px 18px rgba(0,0,0,0.08) }
+
+    /* Search area inside header */
+    .header-actions{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin-left:18px;
+    }
+
+    .search-inline{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      background: rgba(255,255,255,0.08);
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.07);
+      backdrop-filter: blur(4px);
+    }
+
+    .search-inline input{
+      background:transparent;
+      border:0;
+      outline:none;
+      color:#fff;
+      min-width:200px;
+      font-weight:600;
+    }
+
+    /* SecondDiv: intro "Are you starving?" */
+    .intro-bar{
+      margin:18px 0 12px 0;
+      padding:18px;
+      border-radius:12px;
+      background: linear-gradient(90deg, rgba(112,41,99,0.95), rgba(112,41,99,0.88));
+      color: #fff;
+      box-shadow: 0 10px 30px rgba(112,41,99,0.08);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .intro-bar .intro-text{ font-size:18px; font-weight:700 }
+
+    /* Main content grid */
+    .content-grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:20px;
+      margin-top:16px;
+    }
+
+    /* Burger Deals (thirdDiv) */
+    .section{
+      background: var(--bg-1);
+      padding:18px;
+      border-radius: var(--radius);
+      box-shadow: 0 8px 20px rgba(40,20,60,0.04);
+    }
+
+    .section h2{
+      margin-bottom:12px;
+      color:var(--accent);
+      font-size:20px;
+    }
+
+    .burger-row{
+      display:flex;
+      gap:18px;
+      flex-wrap:wrap;
+      justify-content:space-between;
+    }
+
+    .burger-card{
+      background: var(--card);
+      border-radius:10px;
+      width: calc(33.333% - 12px);
+      min-width:220px;
+      overflow:hidden;
+      box-shadow:0 8px 20px rgba(0,0,0,0.06);
+      transition:transform .22s ease, box-shadow .22s ease;
+      display:flex;
+      flex-direction:column;
+      text-align:center;
+    }
+    .burger-card:hover{ transform: translateY(-8px); box-shadow:0 18px 40px rgba(0,0,0,0.10) }
+
+    .burger-card img{
+      width:100%;
+      height:180px;
+      object-fit:cover;
+      display:block;
+    }
+    .burger-card .cap{
+      padding:12px 14px;
+      font-weight:700;
+      color:#333;
+    }
+
+    /* Featured Restaurants (fifthDiv) */
+    .restaurants-grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+      gap:14px;
+      margin-top:10px;
+    }
+
+    .restaurant-card{
+      background:var(--card);
+      padding:12px;
+      border-radius:10px;
+      text-align:center;
+      box-shadow:0 8px 20px rgba(0,0,0,0.05);
+      transition:transform .18s ease;
+    }
+    .restaurant-card:hover{ transform: translateY(-6px) }
+    .restaurant-card a{ display:inline-block; }
+    .restaurant-card img{
+      width:100%;
+      height:140px;
+      object-fit:cover;
+      border-radius:8px;
+      display:block;
+    }
+    .restaurant-caption{ margin-top:10px; font-weight:700; color:var(--muted) }
+
+    /* Main CTA (mainDiv) */
+    .cta{
+      display:flex;
+      gap:18px;
+      align-items:center;
+      justify-content:space-between;
+      padding:28px;
+      border-radius:14px;
+      background-image: linear-gradient(0deg, rgba(0,0,0,0.38), rgba(0,0,0,0.20)), url('https://149446486.v2.pressablecdn.com/wp-content/uploads/2021/12/charcookie-board-750x422.jpg');
+      background-size:cover;
+      background-position:center;
+      color:#fff;
+      min-height:160px;
+      box-shadow:0 12px 30px rgba(0,0,0,0.12);
+    }
+    .cta h2{ font-size:22px; margin-bottom:4px; }
+    .cta .cta-actions{ display:flex; gap:10px; align-items:center }
+    .btn{
+      padding:10px 18px;
+      border-radius:10px;
+      border:0;
+      cursor:pointer;
+      font-weight:700;
+    }
+    .btn-primary{
+      background:var(--gold);
+      color:#222;
+      box-shadow: 0 6px 18px rgba(255,215,0,0.14);
+    }
+    .btn-secondary{
+      background:rgba(255,255,255,0.12);
+      color:#fff;
+    }
+
+    /* Top Cities (fourthDiv) */
+    .cities{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      padding:16px;
+      background:#0d0d0f;
+      color:#fff;
+      border-radius:12px;
+      align-items:center;
+      justify-content:flex-start;
+    }
+
+    .city-chip{
+      background: linear-gradient(180deg,#222 0%, #111 100%);
+      color:#fff;
+      padding:8px 12px;
+      border-radius:999px;
+      font-weight:700;
+      border:1px solid rgba(255,255,255,0.04);
+      font-size:14px;
+    }
+
+    footer.site-footer{
+      margin-top:22px;
+      text-align:center;
+      color:#666;
+      font-size:14px;
+      padding:18px;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px){
+      .burger-card{ width: calc(50% - 12px) }
+      .search-inline input{ min-width:140px }
+    }
+    @media (max-width:640px){
+      header.site-header{ flex-direction:column; align-items:flex-start; gap:12px }
+      .burger-card{ width: 100% }
+      .cta{ flex-direction:column; align-items:flex-start; gap:12px }
+      .header-actions{ width:100%; justify-content:space-between }
+      nav.top-nav{ width:100%; display:flex; gap:8px; flex-wrap:wrap }
+    }
+  </style>
+</head>
+<body>
+  <div class="site-wrap">
+    <!-- Header (firstDiv) -->
+    <header class="site-header" role="banner" aria-label="Top header">
+      <div class="brand" aria-hidden="false">
+        <div class="logo" aria-hidden="true">ZR</div>
+        <div>
+          <h1>ZingRover</h1>
+          <p>Good food · Great deals</p>
+        </div>
+      </div>
+
+      <nav class="top-nav" role="navigation" aria-label="Primary">
+        <button class="nav-btn">Home</button>
+        <button class="nav-btn">Menu</button>
+        <button class="nav-btn">Deals</button>
+        <button class="nav-btn">Contact</button>
+      </nav>
+
+      <div class="header-actions" aria-hidden="false">
+        <div class="search-inline" title="Search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M21 21l-4.35-4.35" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <input id="globalSearch" type="search" placeholder="Search for food, restaurants..." aria-label="Search site" />
+        </div>
+      </div>
+    </header>
+
+    <!-- Intro (secondDiv) -->
+    <section class="intro-bar" role="region" aria-label="Intro">
+      <div class="intro-text">🍔 Are you starving? Browse deals and order in minutes.</div>
+      <div style="opacity:.95;font-weight:700">Free delivery on orders over <span style="color:var(--gold)">Rs 1000</span></div>
+    </section>
+
+    <main class="content-grid" role="main">
+
+      <!-- Burger Deals (thirdDiv) -->
+      <section class="section" id="thirdDiv" aria-label="Burger deals">
+        <h2>Burger Deals</h2>
+        <div class="burger-row" id="burgerContainer">
+          <figure class="burger-card" data-name="Beef Burger">
+            <img src="https://images.immediate.co.uk/production/volatile/sites/2/2015/04/5047.jpg?quality=90&resize=700,466" alt="Beef burger on board">
+            <figcaption class="cap">Beef Burger</figcaption>
+          </figure>
+
+          <figure class="burger-card" data-name="Cheese Burger">
+            <img src="https://www.phunkyfoods.co.uk/wp-content/uploads/2016/06/MUDBURGERS-700x466.jpg" alt="Cheese burger">
+            <figcaption class="cap">Cheeze Burger</figcaption>
+          </figure>
+
+          <figure class="burger-card" data-name="Chicken Burger">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGj2Jvdm2q_n5_aAKNd5A4azAkRPtsTGBp8Q&usqp=CAU" alt="Chicken burger">
+            <figcaption class="cap">Chicken Burger</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- Featured Restaurants (fifthDiv) -->
+      <section class="section" id="fifthDiv" aria-label="Featured restaurants">
+        <h2>Featured Restaurants</h2>
+
+        <div class="restaurants-grid restaurantContainer">
+          <article class="restaurant-card" data-name="Foodpanda">
+            <a href="https://www.foodpanda.pk/" target="_blank" rel="noopener noreferrer">
+              <!-- Replaced huge base64 with a compact logo url for clarity -->
+              <img class="restaurantImage" src="https://thfvnext.bing.com/th/id/OIP.YZsPIwHxlvz7wAHLhCGzXAHaE8?w=225&h=180&c=7&r=0&o=7&cb=thfvnext&dpr=1.1&pid=1.7&rm=3" alt="Foodpanda logo">
+            </a>
+            <div class="restaurant-caption">Foodpanda</div>
+          </article>
+
+          <article class="restaurant-card" data-name="Cheezious">
+            <a href="https://www.cheezious.com/" target="_blank" rel="noopener noreferrer">
+              <img class="restaurantImage" src="https://propakistani.pk/wp-content/uploads/2021/08/WhatsApp-Image-2021-08-05-at-5.50.14-PM-1.jpeg" alt="Cheezious storefront">
+            </a>
+            <div class="restaurant-caption">Cheezious</div>
+          </article>
+
+          <article class="restaurant-card" data-name="OPTP">
+            <a href="https://www.optp.biz/" target="_blank" rel="noopener noreferrer">
+              <img class="restaurantImage" src="https://pbs.twimg.com/media/FFCc--zWYAMzICM.jpg:large" alt="OPTP image">
+            </a>
+            <div class="restaurant-caption">OPTP</div>
+          </article>
+
+          <article class="restaurant-card" data-name="Hardees">
+            <a href="https://www.hardees.com/" target="_blank" rel="noopener noreferrer">
+              <img class="restaurantImage" src="https://avoidingblowout.files.wordpress.com/2016/09/maxresdefault.jpg" alt="Hardee's burger">
+            </a>
+            <div class="restaurant-caption">Hardee's</div>
+          </article>
+
+          <article class="restaurant-card" data-name="Burger Lab">
+            <a href="https://burgerlab.com.pk/" target="_blank" rel="noopener noreferrer">
+              <img class="restaurantImage" src="https://i.ytimg.com/vi/2mxIQxChj5M/maxresdefault.jpg" alt="Burger Lab">
+            </a>
+            <div class="restaurant-caption">Burger Lab</div>
+          </article>
+
+            <article class="restaurant-card" data-name="Burger Lab">
+            <a href="https://www.bing.com/ck/a?!&&p=9607a0d9a179b86c3082cc94d1b5f12a88bd7c9e9fefa01d8abc42decbfdc8aaJmltdHM9MTc1NDg3MDQwMA&ptn=3&ver=2&hsh=4&fclid=1df7228d-34b9-6922-050b-34bb35b06884&psq=soft+swirl+rawalpindi&u=a1aHR0cHM6Ly93d3cuc29mdHN3aXJscGsuY29tLw&ntb=1" target="_blank" rel="noopener noreferrer">
+              <img class="restaurantImage" src="https://thfvnext.bing.com/th/id/OIP.fRoqIR7aGNPayeOjNxKD2QHaEK?w=316&h=180&c=7&r=0&o=7&cb=thfvnext&dpr=1.1&pid=1.7&rm=3" alt="Soft Swirl">
+            </a>
+            <div class="restaurant-caption">Soft Swirl</div>
+          </article>
+
+            <article class="restaurant-card" data-name="Burger Lab">
+            <a href="https://www.bing.com/ck/a?!&&p=f2a56df47019dd0d88cb733f1f0be238e5ff993ab8266b673b3e1ab564f18c2eJmltdHM9MTc1NDg3MDQwMA&ptn=3&ver=2&hsh=4&fclid=1df7228d-34b9-6922-050b-34bb35b06884&psq=ranchers+food+rawalpindi&u=a1aHR0cHM6Ly9yYW5jaGVyc21lbnUuY29tLw&ntb=1" target="_blank" rel="noopener noreferrer">
+              <img class="restaurantImage" src="https://tse1.mm.bing.net/th/id/OIP.DAmoOo0WSU3Jfpyi37Qd8wHaEK?r=0&cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Ranchers">
+            </a>
+            <div class="restaurant-caption">Ranchers</div>
+          </article>
+
+          <article class="restaurant-card" data-name="Asian Wok">
+            <a href="https://www.bing.com/ck/a?!&&p=1794e8d011bee347eee72c88f8bf1694475708baa28d7aa06ce6aaa6c5704e73JmltdHM9MTc1NDg3MDQwMA&ptn=3&ver=2&hsh=4&fclid=1df7228d-34b9-6922-050b-34bb35b06884&psq=marco+polo+restaurant+pindi&u=a1aHR0cHM6Ly93d3cudHJpcGFkdmlzb3IuY29tL1Jlc3RhdXJhbnRfUmV2aWV3LWcyOTg0MjMtZDExNjYyNTIyLVJldmlld3MtTWFyY29fUG9sby1SYXdhbHBpbmRpX1B1bmphYl9Qcm92aW5jZS5odG1s&ntb=1" target="_blank" rel="noopener noreferrer">
+              <img class="restaurantImage" src="data:image/webp;base64,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" alt="Marco Polo">
+            </a>
+            <div class="restaurant-caption">Marco Polo</div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Main CTA (mainDiv) -->
+      <section class="cta" id="mainDiv" aria-label="Order call to action">
+        <div>
+          <h2>Are You Ready To Order Big Deals?</h2>
+          <p style="opacity:.9">Bundle offers, family packs and limited-time discounts — order now and save big!</p>
+        </div>
+        <div class="cta-actions">
+          <button id="orderButton" class="btn btn-primary">Proceed To Order</button>
+          <button class="btn btn-secondary" onclick="alert('Demo: Browse menu to add items')">View Menu</button>
+        </div>
+      </section>
+
+      <!-- Top Cities (fourthDiv) -->
+      <section class="section" aria-label="Top cities">
+        <h2>Top Cities</h2>
+        <div class="cities" id="fourthDiv">
+          <span class="city-chip">Karachi</span>
+          <span class="city-chip">Lahore</span>
+          <span class="city-chip">Islamabad</span>
+          <span class="city-chip">Rawalpindi</span>
+          <span class="city-chip">Multan</span>
+          <span class="city-chip">Bahawalpur</span>
+          <span class="city-chip">Larkana</span>
+          <span class="city-chip">Gotki</span>
+          <span class="city-chip">Quetta</span>
+          <span class="city-chip">Peshawar</span>
+          <span class="city-chip">Dera Ismail</span>
+          <span class="city-chip">Sakker</span>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+      <div>© 2023 ZingRover. All rights reserved. — Built with Zest</div>
+    </footer>
+  </div>
+
+  <script>
+    // Small enhancement: search filters burger & restaurant cards by name
+    (function(){
+      const input = document.getElementById('globalSearch');
+      const burgerCards = Array.from(document.querySelectorAll('#burgerContainer .burger-card'));
+      const restCards = Array.from(document.querySelectorAll('.restaurantContainer .restaurant-card'));
+
+      function filter(q) {
+        const s = (q||'').trim().toLowerCase();
+        const all = burgerCards.concat(restCards);
+        all.forEach(card => {
+          const name = (card.dataset.name || '').toLowerCase();
+          if (!s || name.includes(s)) card.style.display = '';
+          else card.style.display = 'none';
+        });
+      }
+
+      input.addEventListener('input', (e)=> filter(e.target.value));
+      // example behavior for Order button:
+      document.getElementById('orderButton').addEventListener('click', () => {
+        alert('Proceeding to order — this is a demo button. Integrate with your checkout flow.');
+      });
+    })();
+  </script>
+</body>
+</html>
